@@ -1,4 +1,4 @@
-package net.fabricmc.example.mixin;
+package net.eliotex.rhodium.mixin;
 
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.PlayerWorldManager;
@@ -14,7 +14,6 @@ public abstract class PlayerWorldManagerMixin {
     @ModifyVariable(method = "applyViewDistance", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private int forceViewDistance(int original) {
         PlayerManager pm = world.getServer().getPlayerManager();
-        return ((PlayerManagerAccessor)(Object) pm).getViewDistanceRaw();
+        return ((PlayerManagerAccessor) pm).getViewDistanceRaw();
     }
 }
-

@@ -1,4 +1,4 @@
-package net.fabricmc.example.mixin;
+package net.eliotex.rhodium.mixin;
 import net.minecraft.server.PlayerManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.fabricmc.example.GradualViewDistance;
+import net.eliotex.rhodium.GradualViewDistance;
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin implements GradualViewDistance {
     @Shadow private int viewDistance;

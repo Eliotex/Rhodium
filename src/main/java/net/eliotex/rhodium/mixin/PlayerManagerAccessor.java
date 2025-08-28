@@ -1,4 +1,4 @@
-package net.fabricmc.example.mixin;
+package net.eliotex.rhodium.mixin;
 
 import net.minecraft.server.PlayerManager;
 import org.spongepowered.asm.mixin.Mixin;

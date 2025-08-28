@@ -1,4 +1,4 @@
-package net.fabricmc.example;
+package net.eliotex.rhodium;
 
 public interface GradualViewDistance {
     int getGradualTargetDistance();

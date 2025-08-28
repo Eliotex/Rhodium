@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "optimizedchunkloader",
+  "id": "rhodium",
   "version": "1.0.0",
   "name": "OptimizedChunkLoader",
   "description": "some optimizations for the vanilla chunk loader",
@@ -15,7 +15,7 @@
   "icon": "assets/modid/icon.png",
   "environment": "*",
   "mixins": [
-    "optimizedchunkloader.mixins.json"
+    "rhodium.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.19",

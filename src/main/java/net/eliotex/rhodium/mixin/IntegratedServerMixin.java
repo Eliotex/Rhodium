@@ -1,7 +1,7 @@
-package net.fabricmc.example.mixin;
+package net.eliotex.rhodium.mixin;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.fabricmc.example.GradualViewDistance;
+import net.eliotex.rhodium.GradualViewDistance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -11,9 +11,11 @@ public abstract class IntegratedServerMixin {
     @Redirect( method = "setupWorld()V", at = @At( value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;setViewDistance(I)V" ) )
     private void redirectSetViewDistance(PlayerManager pm, int target) {
         int current = pm.getViewDistance();
-        if (target > current + 1) {
-            ((GradualViewDistance)(Object) pm).setGradualTargetDistance(target);
-        } else {
+        if (target == current) {
+            return;
+        }
+        ((GradualViewDistance) pm).setGradualTargetDistance(target);
+        if (target < current) {
             pm.setViewDistance(target);
         }
     }
@@ -25,6 +27,5 @@ public abstract class IntegratedServerMixin {
             logger.info(msg, args);
         }
     }
-
  */
 }
