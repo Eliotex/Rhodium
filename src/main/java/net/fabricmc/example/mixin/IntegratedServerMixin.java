@@ -13,11 +13,11 @@ public abstract class IntegratedServerMixin {
         int current = pm.getViewDistance();
         if (target > current + 1) {
             ((GradualViewDistance)(Object) pm).setGradualTargetDistance(target);
-            ((GradualViewDistance)(Object) pm).setGradualActive(true);
         } else {
             pm.setViewDistance(target);
         }
     }
+/*
     @Redirect(method = "setupWorld()V", at = @At(value = "INVOKE",
             target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;[Ljava/lang/Object;)V"))
     private void redirectViewDistanceLogger(org.apache.logging.log4j.Logger logger, String msg, Object[] args) {
@@ -25,7 +25,6 @@ public abstract class IntegratedServerMixin {
             logger.info(msg, args);
         }
     }
-    @Redirect( method = "setupWorld()V", at = @At( value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;saveWorlds(Z)V" ) )
-    private void removeSaving(IntegratedServer instance, boolean b) {
-    }
+
+ */
 }

@@ -15,7 +15,7 @@
   "icon": "assets/modid/icon.png",
   "environment": "*",
   "mixins": [
-    "modid.mixins.json"
+    "optimizedchunkloader.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.19",
