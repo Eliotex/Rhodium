@@ -4,10 +4,6 @@
   "package": "net.eliotex.rhodium.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MinecraftServerMixin",
-    "PlayerManagerAccessor",
-    "PlayerManagerMixin",
-    "PlayerWorldManagerMixin"
   ],
   "client": [
     "IntegratedServerMixin"
