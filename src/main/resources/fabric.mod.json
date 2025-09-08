@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "rhodium",
-  "version": "1.0.0",
-  "name": "OptimizedChunkLoader",
+  "version": "${version}",
+  "name": "Rhodium",
   "description": "some optimizations for the vanilla chunk loader",
   "authors": [
     "Eliotex"
@@ -18,8 +18,10 @@
     "rhodium.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.19",
-    "minecraft": "1.8.9"
+    "fabricloader": ">=0.15.0",
+    "minecraft": [
+      "1.8.9"
+    ]
   },
   "suggests": {
     "another-mod": "*"
