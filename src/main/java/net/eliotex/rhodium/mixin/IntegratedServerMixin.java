@@ -2,14 +2,16 @@ package net.eliotex.rhodium.mixin;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.apache.logging.log4j.Logger;
+import net.eliotex.rhodium.config.ConfigManager;
+
 @Mixin(IntegratedServer.class)
 public abstract class IntegratedServerMixin {
     @Unique private long lastHeadTime = -1L;
@@ -17,7 +19,7 @@ public abstract class IntegratedServerMixin {
     @Unique private int newRD = -1;
     @Shadow private static final Logger LOGGER = LogManager.getLogger();
 
-    @Inject(method = "setupWorld()V", at = @At("HEAD"))     //calculate current TPS
+    @Inject(method = "setupWorld()V", at = @At("HEAD"))
     private void onTickHead(CallbackInfo ci) {
         long now = System.currentTimeMillis();
         if (lastHeadTime != -1L) {
@@ -30,25 +32,24 @@ public abstract class IntegratedServerMixin {
         lastHeadTime = now;
     }
 
-    @Redirect( method = "setupWorld()V", at = @At( value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;setViewDistance(I)V" ) )
+    @Redirect(method = "setupWorld()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;setViewDistance(I)V"))
     private void redirectSetViewDistance(PlayerManager pm, int originalValue) {
         int current = pm.getViewDistance();
-        if(current < 12 && originalValue > 11) {
-            newRD = 12;                     //Instantly go to 12rd, bc the spawn chunks are loaded anyway
+        int minTPSforIncreaseLocal = ConfigManager.minTPSforIncrease;
+        if (current < 12 && originalValue > 11) {
+            newRD = 12;
         } else if (current > originalValue || originalValue < 13) {
-            newRD = originalValue;          //if rd decrease or player wants to increase to a rd smaller than 13
-        } else if (current < originalValue && recentTPS > 14 && recentTPS < 21) {
-            newRD = current + 1;            //increase by 1, if there is no lag and no ticks get skipped
+            newRD = originalValue;
+        } else if (current < originalValue && recentTPS > minTPSforIncreaseLocal && recentTPS < 21) {
+            newRD = current + 1;
         }
-        if(newRD!=current) {
+        if (newRD != current) {
             pm.setViewDistance(newRD);
             LOGGER.info("Changing view distance to {}, from {}", newRD, current);
         }
     }
-    
-    //avoid spam in log
-    @Redirect(method = "setupWorld()V", at = @At(value = "INVOKE",
-            target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;[Ljava/lang/Object;)V"))
+
+    @Redirect(method = "setupWorld()V", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;[Ljava/lang/Object;)V"))
     private void redirectViewDistanceLogger(org.apache.logging.log4j.Logger logger, String msg, Object[] args) {
         if (!"Changing view distance to {}, from {}".equals(msg)) {
             logger.info(msg, args);
